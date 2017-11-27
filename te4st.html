@@ -8,6 +8,7 @@
     <link href="./css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
     <script src="./lib/jquery-3.2.1.min.js"></script>
     <script src="./lib/jquery.ztree.core.min.js"></script>
+    <script src="js/context.js"></script>
 </head>
 <style>
     /*按钮*/
@@ -16,7 +17,19 @@
         margin-top: 4px;
         height: 24px;
         width: 35px;
-        background: url(http://c.csdnimg.cn/public/common/toolbar/images/f_icon.png) no-repeat 12px -128px;
+        background: url(http://c.csdnimg.cn/public/common/toolbar/images/f_icon.png) no-repeat;
+    }
+    .icon_div_view{
+        background-position: 12px -128px;
+    }
+    .icon_div_edit{
+        background-position: 13px -48px;
+    }
+    .icon_div_del{
+        background-position: 12px -168px;
+    }
+    .icon_div_add{
+        background-position: 12px -188px;
     }
 
     .icon_div a {
@@ -141,6 +154,11 @@
         var spaceStr = "<span style='height:1px;display: inline-block;width:" + (spaceWidth * treeNode.level) + "px'></span>";
         switchObj.before(spaceStr);
         var editStr = '';
+
+        // CORP_CAT 主管行业
+        // CONTACT_PHONE 联系方式
+        // CONTACT_USER 联系人
+
         editStr += '<div class="diy">' + (treeNode.CONTACT_USER == null ? '&nbsp;' : treeNode.CONTACT_USER) + '</div>';
         var corpCat = '<div title="' + treeNode.CORP_CAT + '">' + treeNode.CORP_CAT + '</div>';
         editStr += '<div class="diy">' + (treeNode.CORP_CAT == '-' ? '&nbsp;' : corpCat ) + '</div>';
@@ -430,10 +448,10 @@
      */
     function formatHandle(treeNode) {
         var htmlStr = '';
-        htmlStr += '<div class="icon_div"><a class="icon_view" title="查看"  href="javascript:view(\'' + treeNode.id + '\')"></a></div>';
-        htmlStr += '<div class="icon_div"><a class="icon_edit" title="修改" href="javascript:edit(\'' + treeNode.id + '\')"></a></div>';
-        htmlStr += '<div class="icon_div"><a class="icon_add" title="添加子部门" href="javascript:addSector(\'' + treeNode.id + '\')"></a></div>';
-        htmlStr += '<div class="icon_div"><a class="icon_del" title="删除" href="javascript:del(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_view"><a class="icon_view" title="查看"  href="javascript:view(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_edit"><a class="icon_edit" title="修改" href="javascript:edit(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_add"><a class="icon_add" title="添加子部门" href="javascript:addSector(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_del"><a class="icon_del" title="删除" href="javascript:del(\'' + treeNode.id + '\')"></a></div>';
         return htmlStr;
     }
 
