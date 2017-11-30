@@ -1,0 +1,127 @@
+/*按钮*/
+.icon_div {
+    display: inline-block;
+    margin-top: 4px;
+    height: 24px;
+    width: 35px;
+    background: url(http://c.csdnimg.cn/public/common/toolbar/images/f_icon.png) no-repeat;
+}
+
+.icon_div_view {
+    background-position: 12px -128px;
+}
+
+.icon_div_edit {
+    background-position: 13px -48px;
+}
+
+.icon_div_del {
+    background-position: 12px -168px;
+}
+
+.icon_div_add {
+    background-position: 12px -188px;
+}
+
+.icon_div a {
+    display: inline-block;
+    width: 27px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/*end--按钮*/
+
+/*ztree表格*/
+.ztree {
+    padding: 0;
+    border: 1px solid #CDD6D5;
+    display: inline-block;
+}
+
+
+.ztree li a {
+    vertical-align: middle;
+    height: 30px;
+    padding: 1px 0 0 0;
+}
+
+.ztree li > a {
+    width: 100%;
+}
+
+.ztree li > a,
+.ztree li a.curSelectedNode {
+    padding-top: 0px;
+    background: none;
+    border: none;
+    cursor: default;
+    opacity: 1;
+    height: 30px;
+}
+
+.ztree li ul {
+    padding-left: 0px
+}
+
+.ztree div.diy span {
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.ztree div.diy {
+    height: 30px;
+    width: 200px;
+    line-height: 30px;
+    border-top: 1px dotted #ccc;
+    border-right: 1px solid #eeeeee;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    color: #6c6c6c;
+    font-family: "SimSun";
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.ztree div.diy:first-child {
+    text-align: left;
+    text-indent: 10px;
+}
+.ztree div.diy:last-child{
+    border-right: none;
+}
+
+.ztree .head {
+    height: 30px;
+}
+
+.ztree .head div.th {
+    border-top: none;
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    height: 30px;
+    width: 200px;
+    line-height: 30px;
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+    color: #000;
+    background: #efefef;
+    border-right: 1px solid #ccc;
+    text-indent: 0;
+}
+.ztree .head div.th:last-child {
+    border-right: none;
+}
+
+/*end--ztree表格*/
+li.head .report-period-list {
+    /*margin-top: 1px;*/
+}
+
+.report-period-list li {
+    text-align: center;
+    line-height: 14px;
+}
