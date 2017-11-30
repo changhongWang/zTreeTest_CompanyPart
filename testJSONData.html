@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestJSONData</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=11;IE=10;IE=9;IE=8;"/>
+    <link href="./css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/Personal.css">
+
+    <script src="./lib/jquery-3.2.1.min.js"></script>
+    <script src="./lib/jquery.ztree.core.min.js"></script>
+    <script src="js/context.js"></script>
+</head>
+<body>
+
+<div class="layer">
+    <div id="tableMain">
+        <ul id="dataTree" class="ztree">
+
+        </ul>
+    </div>
+</div>
+
+<script>
+    var zTreeNodes;
+    var setting = {
+        view: {
+            showLine: false,
+            showIcon: false,
+            addDiyDom: addDiyDom
+        }
+    };
+
+    /**
+     * 自定义DOM节点
+     */
+    function addDiyDom(treeId, treeNode) {
+        var spaceWidth = 15;
+        var liObj = $("#" + treeNode.tId);
+        var aObj = $("#" + treeNode.tId + "_a");
+        var switchObj = $("#" + treeNode.tId + "_switch");
+
+        var spanObj = $("#" + treeNode.tId + "_span");
+        aObj.attr('title', '');
+        aObj.append('<div class="diy swich"></div>');
+        var div = $(liObj).find('div').eq(0);
+
+        //改变按钮和相应文本的样式，挂载到div下
+        switchObj.remove();
+        spanObj.remove();
+        div.append(switchObj);
+        div.append(spanObj);
+        $("#" + treeNode.tId + "_ico").remove();
+        //根据节点层级改变缩进
+        var spaceStr = "<span style='height:1px;display: inline-block;width:" + (spaceWidth * treeNode.level) + "px'></span>";
+        switchObj.before(spaceStr);
+
+
+        var editStr = '';
+        editStr += '<div class="diy">' + (treeNode.REPORT_PERIOD_VALUE == null ? '&nbsp;' : treeNode.REPORT_PERIOD_VALUE) + '</div>';
+//        var corpCat = '<div title="' + treeNode.CORP_CAT + '">' + treeNode.CORP_CAT + '</div>';
+//        editStr += '<div class="diy">' + (treeNode.CORP_CAT == '-' ? '&nbsp;' : corpCat ) + '</div>';
+//        editStr += '<div class="diy">' + (treeNode.CONTACT_PHONE == null ? '&nbsp;' : treeNode.CONTACT_PHONE ) + '</div>';
+//        editStr += '<div class="diy">' + formatHandle(treeNode) + '</div>';
+        aObj.append(editStr);
+    }
+
+
+
+
+    var data = jsonData.data;
+    // 将后台获取数据转换为zTree所需格式
+    function translate(data) {
+        var arr = [];
+        for(var i=0;i<data.length;i++){
+            var val = data[i];
+            var obj = {};
+            obj.name = val.indicatorName;
+            obj.id = val.id;
+            obj.pid = val.parentId;
+            obj.open = val.isOpen;
+            //obj.REPORT_PERIOD = val.
+            for(var k in val){
+                if(k.indexOf('v_') != -1){
+                    // 报告期
+                    obj.REPORT_PERIOD = k.substring(2);
+                    obj.REPORT_PERIOD_VALUE = val[k];
+                    // 报告形式
+                    if(k.substring(7) == '12-31'){
+                        obj.REPORT_TYPE = '年报';
+                    }else if(k.substring(7) == '06-30'){
+                        obj.REPORT_TYPE = '中报';
+                    }
+                }
+            }
+            if(val.child != undefined){
+                obj.children = translate(val.child);
+            }
+            arr.push(obj);
+        }
+        return arr;
+    }
+    var arr = translate(data);
+    //初始化列表
+    zTreeNodes = arr;
+    //初始化树
+    $.fn.zTree.init($("#dataTree"), setting, zTreeNodes);
+    //添加表头
+    var li_head = ' <li class="head"><div class="th" style="">报告期</div><div class="th" ><ul class="report-period-list"><li>'+arr[0].REPORT_PERIOD+'</li><li>'+arr[0].REPORT_TYPE+'</li></ul></div></li>';
+    var rows = $("#dataTree").find('li');
+    if (rows.length > 0) {
+        // 有数据
+        rows.eq(0).before(li_head)
+    } else {
+        // 没有数据时
+        $("#dataTree").append(li_head);
+        $("#dataTree").append('<li ><div style="text-align: center;line-height: 30px;" >无符合条件数据</div></li>')
+    }
+
+    /**
+     * 根据权限展示功能按钮
+     * @param treeNode
+     * @returns {string}
+     */
+    function formatHandle(treeNode) {
+        var htmlStr = '';
+        htmlStr += '<div class="icon_div icon_div_view"><a class="icon_view" title="查看"  href="javascript:view(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_edit"><a class="icon_edit" title="修改" href="javascript:edit(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_add"><a class="icon_add" title="添加子部门" href="javascript:addSector(\'' + treeNode.id + '\')"></a></div>';
+        htmlStr += '<div class="icon_div icon_div_del"><a class="icon_del" title="删除" href="javascript:del(\'' + treeNode.id + '\')"></a></div>';
+        return htmlStr;
+    }
+</script>
+</body>
+</html>
